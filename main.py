@@ -1,31 +1,15 @@
 import tkinter as tk
-from math import log2
+from math import log2, floor
 from behani import *
+from kupovani import *
 
-class Obchod:
-    def __init__(self, parent, row, label_text, group):
-        self.label = tk.Label(parent, text=f"{label_text}:")
-        self.label.grid(row=row, column=4, padx=5, pady=5)
-        
-        self.mnozstvi = tk.Entry(parent, width=10)
-        self.mnozstvi.grid(row=row, column=5, padx=5, pady=5)
-        self.mnozstvi.insert(0, str(0))  # Výchozí hodnota
-        
-        self.button = tk.Button(parent, text=f"Koupit!", command=self.koupit())
-        self.button.grid(row=row, column=6, padx=5, pady=5)
-        self.group = group
-        
-        self.cenik = tk.Entry(parent, width=10)
-        self.cenik.grid(row=row, column=7, padx=5, pady=5)
-        self.cenik.insert(0, str(0))  # Výchozí hodnota
-        
-    def koupit(self):
-        pass
-    
-
+class Cenik():
+    def __init__(self):
+        self.babicka = 100
+        self.farma = 1000
 
 class CounterGroup:
-    def __init__(self, parent, row_start, column_start, game):
+    def __init__(self, parent, row_start, column_start, cenik):
         """Vytvoří skupinu počítadel s vlastními labely a přírůstky."""
         self.susenky = 0
         self.k = 1
@@ -41,7 +25,12 @@ class CounterGroup:
         self.poslepu = Poslepu(self.frame, 3, "Poslepu", self)
         self.valeni = Valeni(self.frame, 4, "Valeni", self)
         
-        self.babicka = Obchod(self.frame, 0, "Babicka", self)
+        self.babicka = Babicka(self.frame, 0, "Babicka", self, cenik)
+        self.b = 0
+        
+        self.babicka = Farma(self.frame, 1, "Farma", self, cenik)
+        self.b = 0
+        self.f = 0
         
         self.label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
         self.label.grid(row=0, column=2, padx=5, pady=5)
@@ -50,13 +39,38 @@ class Game():
     def __init__(self, parent, pocet):
         self.parent = parent
         self.teams = []
+        self.cenik = Cenik()
         col = 0
         for i in range(pocet):
             if i == 3:
                 col += 1
-            self.teams.append(CounterGroup(parent, i % 3, col, self))
-    
-
+            self.teams.append(CounterGroup(parent, i % 3, col, self.cenik))
+        self.autoclick()
+        self.updatuj_hodnoty()
+           
+    def autoclick(self):
+        for team in self.teams:
+            team.susenky 
+            team.celkem.obehy.delete(0, tk.END)  # Smaže současný text
+            team.susenky = floor(team.susenky * (11/10)**team.f)
+            team.susenky = team.susenky + (team.b*team.k) 
+            team.celkem.obehy.insert(0, str(team.susenky))  # Přidá novou hodnotu
+        root.after(5000, self.autoclick)
+        
+    def updatuj_hodnoty(self):
+        for team in self.teams:
+            try:
+                team.celkem.susenky = int(team.celkem.obehy.get())
+                team.k = int(team.klasik.parametr.get())
+                team.v = int(team.valeni.parametr.get())
+                team.z = int(team.pozadu.parametr.get())
+                team.s = int(team.poslepu.parametr.get())
+                team.b = int(team.babicka.mnozstvi.get())
+            except:
+                pass
+        root.after(500, self.updatuj_hodnoty)
+        
+        
 
 if __name__ == "__main__":
     root = tk.Tk()

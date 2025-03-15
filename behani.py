@@ -1,6 +1,7 @@
 import tkinter as tk
 from math import log2
 
+
 class CounterRow:
     def __init__(self, parent, row, label_text, group):
         self.label = tk.Label(parent, text=f"{label_text}:")
@@ -31,11 +32,7 @@ class Obehnuti(CounterRow):
         
     def updatuj_hodnoty(self):
         self.pocet_obehu = int(self.parametr.get())
-        self.group.celkem.susenky = int(self.group.celkem.obehy.get())
-        self.group.k = int(self.group.klasik.parametr.get())
-        self.group.v = int(self.group.valeni.parametr.get())
-        self.group.z = int(self.group.pozadu.parametr.get())
-        self.group.s = int(self.group.poslepu.parametr.get())
+
  
     def zvedni_obeh(self):
         pass
