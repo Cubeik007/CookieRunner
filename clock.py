@@ -11,7 +11,7 @@ class Timer():
         self.frame.grid(row=row, column=column, padx=10, pady=10, sticky="w")
         
         self.timer_label = tk.Label(self.frame, text=f"{text}: 0")
-        self.timer_label.grid(row=4, column=3, padx=5, pady=5)
+        self.timer_label.grid(row=0, column=0, padx=5, pady=5)
          
     def reset(self):
         self.t = time.time()

@@ -30,9 +30,14 @@ class CounterGroup:
         self.farma = Farma(self.frame, 1, "Farma", self, cenik)
         self.f = 0
         
-        
         self.dalnice = Dalnice(self.frame, 2, "Dalnice", self, cenik)
         self.d = 0
+        
+        self.org = Org(self.frame, 3, "Org", self, cenik)
+        self.o = 0
+        
+        self.xorg = Xorg(self.frame, 4, "Xorg", self, cenik)
+        self.x = 0
         
         self.team_label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
         self.team_label.grid(row=0, column=2, padx=5, pady=5)
@@ -52,7 +57,7 @@ class Game():
         root.bind("<p>", self.pause_resume)
         
         self.timer = Timer(parent, "Autoclick", 4, 1) 
-        self.total_Time = Timer(parent, "Celkový čas", 5, 1)
+        self.total_Time = Timer(parent, "Celkový čas", 4, 2)
         self.autoclick_interval = 60
         self.game_length = 60*60
         
@@ -87,12 +92,16 @@ class Game():
                 team.b = int(team.babicka.mnozstvi.get())
                 team.f = int(team.farma.mnozstvi.get())
                 team.d = int(team.dalnice.mnozstvi.get())
+                team.o = int(team.org.mnozstvi.get())
+                team.x = int(team.xorg.mnozstvi.get())
             except ValueError:
                 pass
         try:
             self.cenik.dalnice = int(self.cenik.dalnice_counter.cena.get())
             self.cenik.farma = int(self.cenik.farma_counter.cena.get())
             self.cenik.babicka = int(self.cenik.babicka_counter.cena.get())
+            self.cenik.org = int(self.cenik.org_counter.cena.get())
+            self.cenik.xorg = int(self.cenik.xorg_counter.cena.get())
         except ValueError:
             pass
 

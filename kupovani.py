@@ -65,3 +65,23 @@ class Dalnice(Obchod):
             self.mnozstvi.delete(0, tk.END)
             self.group.d += 1
             self.mnozstvi.insert(0, str(self.group.d))
+            
+class Org(Obchod):
+    def __init__(self, parent, row, label_text, group, cenik):
+        super().__init__(parent, row, label_text, group, cenik)
+     
+    def koupit(self):
+        if self.group.o == 0 and self.zaplatit(self.cenik.org):
+            self.mnozstvi.delete(0, tk.END)
+            self.group.o += 1
+            self.mnozstvi.insert(0, str(self.group.o))
+    
+class Xorg(Obchod):
+    def __init__(self, parent, row, label_text, group, cenik):
+        super().__init__(parent, row, label_text, group, cenik)
+     
+    def koupit(self):
+        if self.group.x == 0 and self.zaplatit(self.cenik.xorg):
+            self.mnozstvi.delete(0, tk.END)
+            self.group.x += 1
+            self.mnozstvi.insert(0, str(self.group.x))
