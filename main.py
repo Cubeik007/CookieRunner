@@ -3,6 +3,8 @@ from math import log2, floor
 from behani import *
 from kupovani import *
 from ceniky import *
+import time
+from clock import *
 
 
 class CounterGroup:
@@ -28,8 +30,10 @@ class CounterGroup:
         self.farma = Farma(self.frame, 1, "Farma", self, cenik)
         self.f = 0
         
-        self.label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
-        self.label.grid(row=0, column=2, padx=5, pady=5)
+        self.team_label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
+        self.team_label.grid(row=0, column=2, padx=5, pady=5)
+        
+        
 
 
 class Game():
@@ -42,24 +46,34 @@ class Game():
             if i == 3:
                 col += 1
             self.teams.append(CounterGroup(parent, i % 3, col, self.cenik))
-        self.running = False
-        # root.bind("<p>", self.pause_resume)            
+            
+        root.bind("<p>", self.pause_resume)
+        
+        self.timer = Timer(parent, "Autoclick", 4, 1) 
+        self.total_Time = Timer(parent, "Celkový čas", 5, 1)
+        self.autoclick_interval = 60
+        
+        
         self.autoclick()
         self.updatuj_hodnoty()
+        
+
            
     def autoclick(self):
-        for team in self.teams:
-            team.susenky 
-            team.celkem.obehy.delete(0, tk.END)  # Smaže současný text
-            team.susenky = floor(team.susenky * (11/10)**team.f)
-            team.susenky = team.susenky + (team.b*team.k) 
-            print(team.b, team.k)
-            team.celkem.obehy.insert(0, str(team.susenky))  # Přidá novou hodnotu
-        self.parent.after(5000, self.autoclick)
+        self.timer.change_label()
+        self.total_Time.change_label()
+        if self.timer.get_time() > self.autoclick_interval:
+            for team in self.teams:
+                team.susenky 
+                team.celkem.obehy.delete(0, tk.END)  # Smaže současný text
+                team.susenky = floor(team.susenky * (11/10)**team.f)
+                team.susenky = team.susenky + (team.b*team.k) 
+                team.celkem.obehy.insert(0, str(team.susenky))  # Přidá novou hodnotu
+            self.timer.reset()
+        self.parent.after(500, self.autoclick)
         
     def updatuj_hodnoty(self):
         for team in self.teams:
-            print(int(team.babicka.mnozstvi.get()))
             try:
                 team.susenky = int(team.celkem.obehy.get())
                 team.k = int(team.klasik.parametr.get())
@@ -79,9 +93,11 @@ class Game():
         #     print("help")
         self.parent.after(500, self.updatuj_hodnoty)
         
-    # def pause_resume(self, event = None):
-    #     self.
-        
+    def pause_resume(self, event = None):
+        self.timer.change_label()
+        self.total_Time.change_label()
+        self.timer.pause_resume()
+        self.total_Time.pause_resume()
         
 
 if __name__ == "__main__":
