@@ -2,6 +2,15 @@ import tkinter as tk
 from math import log2
 
 
+class Golden_cookie:
+    def __init__(self, parent, row, label_text, group):
+        self.buzzer = tk.Button(parent, text=f"Zlatý Cookie", command=self.golden_action)
+        self.buzzer.grid(row = 0, column = 3, padx=5, pady=5)
+        
+    def golden_action(self):
+        pass
+
+
 class CounterRow:
     def __init__(self, parent, row, label_text, group):
         self.label = tk.Label(parent, text=f"{label_text}:")
