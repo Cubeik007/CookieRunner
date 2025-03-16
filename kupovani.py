@@ -21,11 +21,11 @@ class Obchod:
         pass
     
     def zaplatit(self, cena):
-        if self.group.susenky < cena:
+        if self.group.celkem.val < cena:
             return False
         self.group.celkem.obehy.delete(0, tk.END)
-        self.group.susenky -= cena
-        self.group.celkem.obehy.insert(0, str(self.group.susenky))  # Přidá novou hodnotu
+        self.group.celkem.val -= cena
+        self.group.celkem.obehy.insert(0, str(self.group.celkem.val))  # Přidá novou hodnotu
         return True
 
     

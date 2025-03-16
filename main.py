@@ -10,19 +10,20 @@ from clock import *
 class CounterGroup:
     def __init__(self, parent, row_start, column_start, cenik):
         """Vytvoří skupinu počítadel s vlastními labely a přírůstky."""
-        self.susenky = 0
-        self.k = 1
-        self.z = 10
-        self.s = 2
-        self.v = 1
+        susenky = 0
+        k = 1
+        z = 10
+        s = 2
+        v = 1
+        
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=row_start, column=column_start, padx=10, pady=10, sticky="w")
         
-        self.celkem = CounterRow(self.frame, 0, "Počet cookies", self)
-        self.klasik = Klasik(self.frame, 1, "Klasik", self)
-        self.pozadu = Pozadu(self.frame, 2, "Pozadu", self)
-        self.poslepu = Poslepu(self.frame, 3, "Poslepu", self)
-        self.valeni = Valeni(self.frame, 4, "Bez noh", self)
+        self.celkem = CounterRow(self.frame, 0, "Počet cookies", susenky, self)
+        self.klasik = Klasik(self.frame, 1, "Klasik", k , self)
+        self.pozadu = Pozadu(self.frame, 2, "Pozadu", z, self)
+        self.poslepu = Poslepu(self.frame, 3, "Poslepu", s, self)
+        self.valeni = Valeni(self.frame, 4, "Bez noh", v, self)
         
         self.babicka = Babicka(self.frame, 0, "Babicka", self, cenik)
         self.b = 0
@@ -58,7 +59,7 @@ class Game():
         
         self.timer = Timer(parent, "Autoclick", 4, 1) 
         self.total_Time = Timer(parent, "Celkový čas", 4, 2)
-        self.autoclick_interval = 60
+        self.autoclick_interval = 5
         self.game_length = 60*60
         
         self.change_time()
@@ -74,26 +75,25 @@ class Game():
 
            
     def autoclick(self):
-            for team in self.teams:
-                team.susenky 
-                team.celkem.obehy.delete(0, tk.END)  # Smaže současný text
-                team.susenky = floor(team.susenky * (11/10)**team.f)
-                team.susenky = team.susenky + (team.b*team.k) 
-                team.celkem.obehy.insert(0, str(team.susenky))  # Přidá novou hodnotu
+        for team in self.teams:
+            team.celkem.val = floor(team.celkem.val * (11/10)**team.f)
+            team.celkem.val = team.celkem.val + (team.b*team.klasik.val) 
+            team.celkem.updatuj_parametr(team.celkem.val)
         
     def updatuj_hodnoty(self):
         for team in self.teams:
             try:
-                team.susenky = int(team.celkem.obehy.get())
-                team.k = int(team.klasik.parametr.get())
-                team.v = int(team.valeni.parametr.get())
-                team.z = int(team.pozadu.parametr.get())
-                team.s = int(team.poslepu.parametr.get())
-                team.b = int(team.babicka.mnozstvi.get())
-                team.f = int(team.farma.mnozstvi.get())
-                team.d = int(team.dalnice.mnozstvi.get())
-                team.o = int(team.org.mnozstvi.get())
-                team.x = int(team.xorg.mnozstvi.get())
+                pass
+                # team.celkem.val = int(team.celkem.obehy.get())
+                # team.klasik.val = int(team.klasik.parametr.get())
+                # team.pozadu.val = int(team.valeni.parametr.get())
+                # team.z = int(team.pozadu.parametr.get())
+                # team.s = int(team.poslepu.parametr.get())
+                # team.b = int(team.babicka.mnozstvi.get())
+                # team.f = int(team.farma.mnozstvi.get())
+                # team.d = int(team.dalnice.mnozstvi.get())
+                # team.o = int(team.org.mnozstvi.get())
+                # team.x = int(team.xorg.mnozstvi.get())
             except ValueError:
                 pass
         try:
