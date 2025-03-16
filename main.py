@@ -30,6 +30,10 @@ class CounterGroup:
         self.farma = Farma(self.frame, 1, "Farma", self, cenik)
         self.f = 0
         
+        
+        self.dalnice = Dalnice(self.frame, 2, "Dalnice", self, cenik)
+        self.d = 0
+        
         self.team_label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
         self.team_label.grid(row=0, column=2, padx=5, pady=5)
         
@@ -50,25 +54,27 @@ class Game():
         self.timer = Timer(parent, "Autoclick", 4, 1) 
         self.total_Time = Timer(parent, "Celkový čas", 5, 1)
         self.autoclick_interval = 60
+        self.game_length = 60*60
         
+        self.change_time()
         
-        self.autoclick()
+    def change_time(self):
+        self.timer.change_label()
+        self.total_Time.change_label()
         self.updatuj_hodnoty()
-        
+        if self.timer.get_time() > self.autoclick_interval:
+            self.autoclick()
+            self.timer.reset()
+        self.parent.after(500, self.change_time)
 
            
     def autoclick(self):
-        self.timer.change_label()
-        self.total_Time.change_label()
-        if self.timer.get_time() > self.autoclick_interval:
             for team in self.teams:
                 team.susenky 
                 team.celkem.obehy.delete(0, tk.END)  # Smaže současný text
                 team.susenky = floor(team.susenky * (11/10)**team.f)
                 team.susenky = team.susenky + (team.b*team.k) 
                 team.celkem.obehy.insert(0, str(team.susenky))  # Přidá novou hodnotu
-            self.timer.reset()
-        self.parent.after(500, self.autoclick)
         
     def updatuj_hodnoty(self):
         for team in self.teams:
@@ -80,17 +86,16 @@ class Game():
                 team.s = int(team.poslepu.parametr.get())
                 team.b = int(team.babicka.mnozstvi.get())
                 team.f = int(team.farma.mnozstvi.get())
+                team.d = int(team.dalnice.mnozstvi.get())
             except ValueError:
                 pass
         try:
+            self.cenik.dalnice = int(self.cenik.dalnice_counter.cena.get())
             self.cenik.farma = int(self.cenik.farma_counter.cena.get())
             self.cenik.babicka = int(self.cenik.babicka_counter.cena.get())
         except ValueError:
             pass
-        # except:
-        #     print("help")
-        self.parent.after(500, self.updatuj_hodnoty)
-        
+
     def pause_resume(self, event = None):
         self.timer.change_label()
         self.total_Time.change_label()

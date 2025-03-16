@@ -4,12 +4,14 @@ class Cenik():
     def __init__(self, parent):
         self.babicka = 100
         self.farma = 1000
+        self.dalnice = 10000
         
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=4, column=0, padx=10, pady=10, sticky="w")
         
         self.babicka_counter = Counter(self.frame, "Babička", self.babicka, 0)
         self.farma_counter = Counter(self.frame, "Farma", self.farma, 1)
+        self.dalnice_counter = Counter(self.frame, "Dalnice", self.dalnice, 2)
         
 class Counter():
     def __init__(self, parent, nazev, cena, row):

@@ -56,3 +56,12 @@ class Farma(Obchod):
             self.cenik.farma_counter.cena.insert(0, str(self.cenik.farma))
 
             
+class Dalnice(Obchod):
+    def __init__(self, parent, row, label_text, group, cenik):
+        super().__init__(parent, row, label_text, group, cenik)
+     
+    def koupit(self):
+        if self.group.d == 0 and self.zaplatit(self.cenik.dalnice):
+            self.mnozstvi.delete(0, tk.END)
+            self.group.d += 1
+            self.mnozstvi.insert(0, str(self.group.d))
