@@ -27,7 +27,6 @@ class Timer():
     def get_time(self):
         if self.paused:
             return self.dif
-        print(self.t - time.time())
         return time.time() - self.t
     
     def change_label(self):

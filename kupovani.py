@@ -1,5 +1,6 @@
 import tkinter as tk
 from math import log2, floor
+from behani import CounterRow
 
 class Obchod:
     def __init__(self, parent, row, label_text, group, cenik):

@@ -6,24 +6,28 @@ from ceniky import *
 import time
 from clock import *
 
+# Zakladni nastaveni parametru
+SUSENKY = 0
+KLASIK = 1
+POZADU = 10
+POSLEPU = 2
+VALENI = 1
+
+AUTOCLICK_INTERVAL = 5
+GAME_LENGTH = 3600
+
 
 class CounterGroup:
-    def __init__(self, parent, row_start, column_start, cenik):
-        """Vytvoří skupinu počítadel s vlastními labely a přírůstky."""
-        susenky = 0
-        k = 1
-        z = 10
-        s = 2
-        v = 1
-        
+    def __init__(self, parent, row_start, column_start, cenik):        
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=row_start, column=column_start, padx=10, pady=10, sticky="w")
         
-        self.celkem = CounterRow(self.frame, 0, "Počet cookies", susenky, self)
-        self.klasik = Klasik(self.frame, 1, "Klasik", k , self)
-        self.pozadu = Pozadu(self.frame, 2, "Pozadu", z, self)
-        self.poslepu = Poslepu(self.frame, 3, "Poslepu", s, self)
-        self.valeni = Valeni(self.frame, 4, "Bez noh", v, self)
+        self.celkem = CounterRow(self.frame, 0, "Počet cookies", self)
+        self.klasik = Klasik(self.frame, 1, "Klasik", self, KLASIK)
+        self.pozadu = Pozadu(self.frame, 2, "Pozadu", self, POZADU)
+        self.poslepu = Poslepu(self.frame, 3, "Poslepu", self, POSLEPU)
+        self.valeni = Valeni(self.frame, 4, "Bez noh", self, VALENI)
+        self.radky = [self.celkem, self.klasik, self.pozadu, self.poslepu, self.valeni]
         
         self.babicka = Babicka(self.frame, 0, "Babicka", self, cenik)
         self.b = 0
@@ -59,8 +63,8 @@ class Game():
         
         self.timer = Timer(parent, "Autoclick", 4, 1) 
         self.total_Time = Timer(parent, "Celkový čas", 4, 2)
-        self.autoclick_interval = 5
-        self.game_length = 60*60
+        self.autoclick_interval = AUTOCLICK_INTERVAL
+        self.game_length = GAME_LENGTH
         
         self.change_time()
         
@@ -71,7 +75,7 @@ class Game():
         if self.timer.get_time() > self.autoclick_interval:
             self.autoclick()
             self.timer.reset()
-        self.parent.after(500, self.change_time)
+        self.parent.after(100, self.change_time)
 
            
     def autoclick(self):
@@ -83,7 +87,12 @@ class Game():
     def updatuj_hodnoty(self):
         for team in self.teams:
             try:
-                pass
+                for radek in team.radky:
+                    try:
+                        radek.param = int(radek.parametr.get())
+                    except AttributeError:
+                        pass
+                    radek.val = int(radek.mnozstvi.get())
                 # team.celkem.val = int(team.celkem.obehy.get())
                 # team.klasik.val = int(team.klasik.parametr.get())
                 # team.pozadu.val = int(team.valeni.parametr.get())
