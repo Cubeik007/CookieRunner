@@ -3,7 +3,7 @@ from math import log2
 
 
 class Golden_cookie:
-    def __init__(self, parent, row, label_text , group):
+    def __init__(self, parent, group):
         self.buzzer = tk.Button(parent, text=f"Zlatý Cookie", command=self.golden_action)
         self.buzzer.grid(row = 0, column = 3, padx=5, pady=5)
         
@@ -12,13 +12,13 @@ class Golden_cookie:
 
 
 class CounterRow:
-    def __init__(self, parent, row, label_text, group, type = 0):
+    def __init__(self, parent, row, label_text, col = 0):
         self.val = 0
         self.label = tk.Label(parent, text=f"{label_text}:")
-        self.label.grid(row=row, column=4*type , padx=5, pady=5)
+        self.label.grid(row=row, column=col , padx=5, pady=5)
 
         self.mnozstvi = tk.Entry(parent, width=10)
-        self.mnozstvi.grid(row=row, column=4*type+1, padx=5, pady=5)
+        self.mnozstvi.grid(row=row, column=col+1, padx=5, pady=5)
         self.mnozstvi.insert(0, str(0))  # Výchozí hodnota
         self.param = 0
         
@@ -31,7 +31,7 @@ class CounterRow:
     
 class Obehnuti(CounterRow):
     def __init__(self, parent, row, label_text, group, default_param):
-        super().__init__(parent, row, label_text, group)
+        super().__init__(parent, row, label_text)
         self.button = tk.Button(parent, text=f"Oběhnuto!", command=self.obehnuto)
         self.button.grid(row=row, column=2, padx=5, pady=5)
         self.group = group
@@ -64,8 +64,8 @@ class Klasik(Obehnuti):
         self.group.celkem.updatuj_parametr(self.group.celkem.val)
         
 class Pozadu(Obehnuti):
-    def __init__(self, parent, row, label_text, val, default = 10):
-        super().__init__(parent, row, label_text, val, default)        
+    def __init__(self, parent, row, label_text, group, default = 10):
+        super().__init__(parent, row, label_text, group, default)        
 
     def obehnuto(self):
         self.pricti_mnozstvi()
