@@ -3,12 +3,29 @@ from math import log2
 
 
 class Golden_cookie:
-    def __init__(self, parent, group):
+    def __init__(self, parent, group, teams):
         self.buzzer = tk.Button(parent, text=f"Zlatý Cookie", command=self.golden_action)
         self.buzzer.grid(row = 0, column = 3, padx=5, pady=5)
+        self.group = group
+        self.teams = teams
         
     def golden_action(self):
-        pass
+        self.group.babicka.val += 1
+        self.group.babicka.updatuj_mnozstvi(self.group.babicka.val)
+        self.group.farma.val += 1
+        self.group.farma.updatuj_mnozstvi(self.group.farma.val)
+        k = self.get_total_klasik()
+        self.group.celkem.val += (k*5)
+        self.group.celkem.updatuj_mnozstvi(self.group.celkem.val)
+        self.group.pozadu.par += 10
+        
+    def get_total_klasik(self):
+        sum = 0
+        for team in self.teams:
+            sum += team.klasik.param
+        return sum
+        
+        
 
 
 class CounterRow:

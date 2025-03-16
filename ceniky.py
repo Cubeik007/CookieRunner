@@ -25,12 +25,4 @@ class Counter(CounterRow):
         super().__init__(parent, row, label_text, col)
         self.val = val
         self.updatuj_mnozstvi(val)
-            
-            
-        # self.val = val
-        # self.label = tk.Label(parent, text=nazev)
-        # self.label.grid(row=row, column=col, padx=5, pady=5)
-        
-        # self.cena = tk.Entry(parent, width=10)
-        # self.cena.grid(row=row, column=col+1, padx=5, pady=5)
-        # self.cena.insert(0, str(val))  # Výchozí hodnota
+
