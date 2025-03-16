@@ -33,18 +33,22 @@ class Obehnuti(CounterRow):
         self.pocet_obehu = 0
     
     def pricti_obeh(self):
-        self.updatuj_hodnoty()
+        self.updatuj_obehy()
         self.pocet_obehu = int(self.obehy.get())  
         self.obehy.delete(0, tk.END)
         self.pocet_obehu += 1
         self.obehy.insert(0, self.pocet_obehu)
         
-    def updatuj_hodnoty(self):
+    def updatuj_obehy(self):
         self.pocet_obehu = int(self.parametr.get())
 
  
     def zvedni_obeh(self):
         pass
+    
+    def updatuj_parametr(self, new_value):
+        self.parametr.delete(0, tk.END)
+        self.parametr.insert(0, str(new_value))
         
 
 class Klasik(Obehnuti):
@@ -64,9 +68,8 @@ class Pozadu(Obehnuti):
     def zvedni_obeh(self):
         self.pricti_obeh()
         if self.pocet_obehu % 5 == 0:
-            self.group.klasik.parametr.delete(0, tk.END)  # Smaže současný text
             self.group.k += self.group.z
-            self.group.klasik.parametr.insert(0, str(self.group.k))  # Přidá novou hodnotu
+            self.group.klasik.updatuj_parametr(self.group.k)
         
 class Poslepu(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 2):
@@ -75,9 +78,8 @@ class Poslepu(Obehnuti):
     def zvedni_obeh(self):
         self.pricti_obeh()
         if self.pocet_obehu % 5 == 0 and self.pocet_obehu <= 50:
-            self.group.klasik.parametr.delete(0, tk.END)  # Smaže současný text
             self.group.k *= self.group.s
-            self.group.klasik.parametr.insert(0, str(self.group.k))  # Přidá novou hodnotu
+            self.group.klasik.updatuj_parametr(self.group.k)
         
 class Valeni(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 1):
@@ -86,6 +88,5 @@ class Valeni(Obehnuti):
     def zvedni_obeh(self):
         self.pricti_obeh()
         if log2(self.pocet_obehu).is_integer():
-            self.group.poslepu.parametr.delete(0, tk.END)  # Smaže současný text
             self.group.s += 1
-            self.group.poslepu.parametr.insert(0, str(self.group.s))  # Přidá novou hodnot
+            self.group.poslepu.updatuj_parametr(self.group.s)
