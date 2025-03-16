@@ -20,7 +20,7 @@ GAME_LENGTH = 3600
 class CounterGroup:
     def __init__(self, parent, row_start, column_start, cenik, game):        
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
-        self.frame.grid(row=row_start, column=column_start, padx=10, pady=10, sticky="w")
+        self.frame.grid(row=row_start, column=column_start, padx=5, pady=5, sticky="w")
         
         self.celkem = CounterRow(self.frame, 0, "Počet cookies")
         self.klasik = Klasik(self.frame, 1, "Klasik", self, KLASIK)
@@ -34,6 +34,7 @@ class CounterGroup:
         self.dalnice = Dalnice(self.frame, 2, "Dalnice", self, cenik)  
         self.org = Org(self.frame, 3, "Org", self, cenik)
         self.xorg = Xorg(self.frame, 4, "Xorg", self, cenik)
+        self.jail = Jail(self.frame, 5, "Jail free card", self, cenik)
         self.kupovani = [self.babicka, self.farma, self.dalnice, self.org, self.xorg]
         
         self.golden = Golden_cookie(self.frame, self, game.teams)

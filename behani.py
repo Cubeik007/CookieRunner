@@ -17,7 +17,7 @@ class Golden_cookie:
         k = self.get_total_klasik()
         self.group.celkem.val += (k*5)
         self.group.celkem.updatuj_mnozstvi(self.group.celkem.val)
-        self.group.pozadu.par += 10
+        self.group.pozadu.param += 10
         
     def get_total_klasik(self):
         sum = 0

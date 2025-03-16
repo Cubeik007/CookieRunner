@@ -24,6 +24,7 @@ class Obchod(CounterRow):
         return True        
     
     def zvedni_ceny(self, counter, nova_cena):
+        print(nova_cena)
         counter.updatuj_mnozstvi(nova_cena)
         
     
@@ -63,4 +64,13 @@ class Xorg(Obchod):
      
     def koupit(self):
         if self.val == 0:
-            self.zaplatit(self.cenik.xorg_counter, self.cenik.org_counter.val)
+            self.zaplatit(self.cenik.xorg_counter, self.cenik.xorg_counter.val)
+
+class Jail(Obchod):
+    def __init__(self, parent, row, label_text, group, cenik):
+        super().__init__(parent, row, label_text, group, cenik)
+     
+    def koupit(self):
+        if self.val == 0:
+            print("Hello", self.cenik.jail_counter.val)
+            self.zaplatit(self.cenik.jail_counter, self.cenik.jail_counter.val*2)
