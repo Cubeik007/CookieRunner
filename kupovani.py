@@ -13,18 +13,18 @@ class Obchod(CounterRow):
     def koupit(self):
         pass
     
-    def zaplatit(self, counter, zvednuti = 0):
+    def zaplatit(self, counter, nova_cena = 0):
         if self.group.celkem.val < counter.val:
             return False
         self.group.celkem.val -= counter.val
         self.group.celkem.updatuj_mnozstvi(self.group.celkem.val)
         self.val += 1
         self.updatuj_mnozstvi(self.val)
-        self.zvedni_ceny(counter, zvednuti)
+        self.zvedni_ceny(counter, nova_cena)
         return True        
     
-    def zvedni_ceny(self, counter, zvednuti):
-        counter.updatuj_mnozstvi(zvednuti)
+    def zvedni_ceny(self, counter, nova_cena):
+        counter.updatuj_mnozstvi(nova_cena)
         
     
 class Babicka(Obchod):
@@ -33,22 +33,13 @@ class Babicka(Obchod):
         
     def koupit(self):
         self.zaplatit(self.cenik.babicka_counter, floor(self.cenik.babicka_counter.val*1.2))
-            # self.cenik.babicka_counter.cena.delete(0, tk.END)
-            # self.cenik.babicka_counter.val = floor(self.cenik.babicka_counter.val*1.2)
-            # self.cenik.babicka_counter.cena.insert(0, str(self.cenik.babicka))
 
 class Farma(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
         super().__init__(parent, row, label_text, group, cenik)
         
     def koupit(self):
-        self.zaplatit(self.cenik.farma, floor(self.cenik.farma*1.2))
-            # self.val += 1
-            # self.updatuj_mnozstvi(self.val)
-            # self.cenik.farma_counter.cena.delete(0, tk.END)
-            # self.cenik.farma = floor(self.cenik.farma*1.2)
-            # self.cenik.farma_counter.cena.insert(0, str(self.cenik.farma))
-
+        self.zaplatit(self.cenik.farma_counter, floor(self.cenik.farma_counter.val*1.2))
             
 class Dalnice(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
@@ -56,7 +47,7 @@ class Dalnice(Obchod):
      
     def koupit(self):
         if self.val == 0:
-            self.zaplatit(self.cenik.dalnice)
+            self.zaplatit(self.cenik.dalnice_counter, self.cenik.dalnice_counter.val)
             
 class Org(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
@@ -64,7 +55,7 @@ class Org(Obchod):
      
     def koupit(self):
         if self.val == 0:
-            self.zaplatit(self.cenik.org)
+            self.zaplatit(self.cenik.org_counter, self.cenik.org_counter.val)
     
 class Xorg(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
@@ -72,4 +63,4 @@ class Xorg(Obchod):
      
     def koupit(self):
         if self.val == 0:
-            self.zaplatit(self.cenik.xorg)
+            self.zaplatit(self.cenik.xorg_counter, self.cenik.org_counter.val)
