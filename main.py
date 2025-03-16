@@ -18,7 +18,7 @@ class CounterGroup:
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=row_start, column=column_start, padx=10, pady=10, sticky="w")
         
-        self.celkem = CounterRow(self.frame, 0, "Celkem", self)
+        self.celkem = CounterRow(self.frame, 0, "Počet cookies", self)
         self.klasik = Klasik(self.frame, 1, "Klasik", self)
         self.pozadu = Pozadu(self.frame, 2, "Pozadu", self)
         self.poslepu = Poslepu(self.frame, 3, "Poslepu", self)
@@ -33,8 +33,6 @@ class CounterGroup:
         self.team_label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
         self.team_label.grid(row=0, column=2, padx=5, pady=5)
         
-        
-
 
 class Game():
     def __init__(self, parent, pocet):
