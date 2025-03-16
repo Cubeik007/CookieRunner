@@ -79,4 +79,4 @@ class Valeni(Obehnuti):
         if log2(self.pocet_obehu).is_integer():
             self.group.poslepu.parametr.delete(0, tk.END)  # Smaže současný text
             self.group.s += 1
-            self.group.poslepu.parametr.insert(0, str(self.group.s))  # Přidá novou hodnotu
+            self.group.poslepu.parametr.insert(0, str(self.group.s))  # Přidá novou hodnot

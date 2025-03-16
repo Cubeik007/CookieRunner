@@ -1,5 +1,5 @@
 import tkinter as tk
-from math import log2
+from math import log2, floor
 
 class Obchod:
     def __init__(self, parent, row, label_text, group, cenik):
@@ -16,10 +16,6 @@ class Obchod:
         self.button.grid(row=row, column=6, padx=5, pady=5)
         self.group = group
         
-        self.cena = tk.Entry(parent, width=10)
-        self.cena.grid(row=row, column=7, padx=5, pady=5)
-        self.cena.insert(0, str(0))  # Výchozí hodnota
-        
         
     def koupit(self):
         pass
@@ -31,28 +27,32 @@ class Obchod:
         self.group.susenky -= cena
         self.group.celkem.obehy.insert(0, str(self.group.susenky))  # Přidá novou hodnotu
         return True
+
     
 class Babicka(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
         super().__init__(parent, row, label_text, group, cenik)
-        self.cena.delete(0, tk.END)
-        self.cena.insert(0, str(self.cenik.babicka))
         
     def koupit(self):
         if self.zaplatit(self.cenik.babicka):
-            self.mnozstvi.delete(0, tk.END)  # Smaže současný text
+            self.mnozstvi.delete(0, tk.END) 
             self.group.b += 1
-            self.mnozstvi.insert(0, str(self.group.b))  # Přidá novou hodnotu
+            self.mnozstvi.insert(0, str(self.group.b)) 
+            self.cenik.babicka_counter.cena.delete(0, tk.END)
+            self.cenik.babicka = floor(self.cenik.babicka*1.2)
+            self.cenik.babicka_counter.cena.insert(0, str(self.cenik.babicka))
 
 class Farma(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
         super().__init__(parent, row, label_text, group, cenik)
-        self.cena.delete(0, tk.END)
-        self.cena.insert(0, str(self.cenik.farma))
         
     def koupit(self):
         if self.zaplatit(self.cenik.farma):
-            self.mnozstvi.delete(0, tk.END)  # Smaže současný text
+            self.mnozstvi.delete(0, tk.END)  
             self.group.f += 1
-            self.mnozstvi.insert(0, str(self.group.f))  # Přidá novou hodnotu
+            self.mnozstvi.insert(0, str(self.group.f))
+            self.cenik.farma_counter.cena.delete(0, tk.END)
+            self.cenik.farma = floor(self.cenik.farma*1.2)
+            self.cenik.farma_counter.cena.insert(0, str(self.cenik.farma))
+
             
