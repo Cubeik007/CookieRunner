@@ -4,9 +4,9 @@ from behani import CounterRow
 BABICKA = 100
 FARMA = 1000
 DALNICE = 10000
-ORG = 500
+ORG = 200
 XORG = 500
-JAIL = 10000
+JAIL = 2500
 
 class Cenik():
     def __init__(self, parent):

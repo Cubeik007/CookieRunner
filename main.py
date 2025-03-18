@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import tkinter as tk
 from math import log2, floor
 from behani import *
@@ -5,20 +7,22 @@ from kupovani import *
 from ceniky import *
 import time
 from clock import *
+from achievements import *
 
 # Zakladni nastaveni parametru
 SUSENKY = 0
 KLASIK = 1
 POZADU = 10
-POSLEPU = 2
+POSLEPU = 1
 VALENI = 1
 
-AUTOCLICK_INTERVAL = 5
+AUTOCLICK_INTERVAL = 60
 GAME_LENGTH = 3600
 
 
 class CounterGroup:
-    def __init__(self, parent, row_start, column_start, cenik, game):        
+    def __init__(self, parent, row_start, column_start, cenik, game, id):
+        self.id = id
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=row_start, column=column_start, padx=5, pady=5, sticky="w")
         
@@ -41,6 +45,7 @@ class CounterGroup:
         
         self.team_label = tk.Label(self.frame, text=f"Tým číslo {row_start+3*column_start+1}")
         self.team_label.grid(row=0, column=2, padx=5, pady=5)
+        self.achievements = game.achievements
         
 
 class Game():
@@ -48,13 +53,15 @@ class Game():
         self.parent = parent
         self.teams = []
         self.cenik = Cenik(parent)
+        self.achievements = Achievements(parent, self.teams)
         col = 0
         for i in range(pocet):
             if i == 3:
                 col += 1
-            self.teams.append(CounterGroup(parent, i % 3, col, self.cenik, self))
+            self.teams.append(CounterGroup(parent, i % 3, col, self.cenik, self, i+1))
             
         root.bind("<p>", self.pause_resume)
+        
         
         self.timer = Timer(parent, "Autoclick", 4, 1) 
         self.total_Time = Timer(parent, "Celkový čas", 4, 2)
@@ -70,12 +77,12 @@ class Game():
         if self.timer.get_time() > self.autoclick_interval:
             self.autoclick()
             self.timer.reset()
-        self.parent.after(100, self.change_time)
+        self.parent.after(50, self.change_time)
 
            
     def autoclick(self):
         for team in self.teams:
-            team.celkem.val = floor(team.celkem.val * (105/100)**team.farma.val)
+            team.celkem.val = floor(team.celkem.val * (11/10)**team.farma.val)
             team.celkem.val = team.celkem.val + (team.babicka.val*team.klasik.param//2) 
             team.celkem.updatuj_parametr(team.celkem.val)
         

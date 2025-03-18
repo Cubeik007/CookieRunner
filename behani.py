@@ -12,12 +12,13 @@ class Golden_cookie:
     def golden_action(self):
         self.group.babicka.val += 1
         self.group.babicka.updatuj_mnozstvi(self.group.babicka.val)
-        self.group.farma.val += 1
-        self.group.farma.updatuj_mnozstvi(self.group.farma.val)
+        # self.group.farma.val += 1
+        # self.group.farma.updatuj_mnozstvi(self.group.farma.val)
         k = self.get_total_klasik()
         self.group.celkem.val += (k*5)
         self.group.celkem.updatuj_mnozstvi(self.group.celkem.val)
         self.group.pozadu.param += 10
+        self.group.pozadu.updatuj_parametr(self.group.pozadu.param)
         
     def get_total_klasik(self):
         sum = 0
@@ -62,6 +63,7 @@ class Obehnuti(CounterRow):
         self.val = int(self.mnozstvi.get())  
         self.val += 1
         self.updatuj_mnozstvi(self.val)
+        self.group.achievements.check_achievements(self.group)
  
     def obehnuto(self):
         pass
@@ -76,36 +78,36 @@ class Klasik(Obehnuti):
         super().__init__(parent, row, label_text, group, default)        
 
     def obehnuto(self):
-        self.pricti_mnozstvi()
         self.group.celkem.val += self.group.klasik.param
         self.group.celkem.updatuj_parametr(self.group.celkem.val)
+        self.pricti_mnozstvi()
         
 class Pozadu(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 10):
         super().__init__(parent, row, label_text, group, default)        
 
     def obehnuto(self):
-        self.pricti_mnozstvi()
         if self.val % 5 == 0:
             self.group.klasik.param += self.group.pozadu.param
             self.group.klasik.updatuj_parametr(self.group.klasik.param)
+        self.pricti_mnozstvi()
         
 class Poslepu(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 2):
         super().__init__(parent, row, label_text, group, default)
 
     def obehnuto(self):
-        self.pricti_mnozstvi()
-        if self.val % 5 == 0 and self.val <= 50:
+        if self.val % 5 == 0 and self.val <= 30:
             self.group.klasik.param *= self.group.poslepu.param
             self.group.klasik.updatuj_parametr(self.group.klasik.param)
+        self.pricti_mnozstvi()
         
 class Valeni(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 1):
         super().__init__(parent, row, label_text, group, default)
 
     def obehnuto(self):
-        self.pricti_mnozstvi()
-        if log2(self.val).is_integer():
+        if self.val == 0 or log2(self.val).is_integer():
             self.group.poslepu.param += 1
             self.group.poslepu.updatuj_parametr(self.group.poslepu.param)
+        self.pricti_mnozstvi()

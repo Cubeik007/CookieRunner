@@ -21,6 +21,7 @@ class Obchod(CounterRow):
         self.val += 1
         self.updatuj_mnozstvi(self.val)
         self.zvedni_ceny(counter, nova_cena)
+        self.group.achievements.check_achievements(self.group)
         return True        
     
     def zvedni_ceny(self, counter, nova_cena):
@@ -55,16 +56,14 @@ class Org(Obchod):
         super().__init__(parent, row, label_text, group, cenik)
      
     def koupit(self):
-        if self.val == 0:
-            self.zaplatit(self.cenik.org_counter, self.cenik.org_counter.val)
+        self.zaplatit(self.cenik.org_counter, floor(self.cenik.org_counter.val*2))
     
 class Xorg(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
         super().__init__(parent, row, label_text, group, cenik)
      
     def koupit(self):
-        if self.val == 0:
-            self.zaplatit(self.cenik.xorg_counter, self.cenik.xorg_counter.val)
+        self.zaplatit(self.cenik.xorg_counter, floor(self.cenik.xorg_counter.val*2))
 
 class Jail(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
