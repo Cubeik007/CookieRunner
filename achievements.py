@@ -9,7 +9,7 @@ class Achievements():
         
         self.teams = teams
         
-        self.names = ["Rychlík", "Lenoch", "Pracháč", "Milionář", "Slepec", "Ničitel", "Chudý úplatkář", "Samotář", "Inovátor", "Ochranář"]
+        self.names = ["Rychlík", "Lenoch", "Pracháč", "Milionář", "Slepec", "Ničitel", "Úplatkář", "Samotář", "Inovátor", "Ochranář"]
         self.claimed = [0 for _ in range(len(self.names))]
         self.milestones = []
         for i, mile in enumerate(self.names):
@@ -26,7 +26,7 @@ class Achievements():
                     case 0:
                         if team.celkem.val > 0: 
                             change = True
-                            team.pozadu.param += 5
+                            team.pozadu.param += 2
                             team.pozadu.updatuj_parametr(team.pozadu.param)
                     case 1:
                         if self.lenoch():
@@ -54,7 +54,7 @@ class Achievements():
                             team.celkem.val += 5000
                             team.celkem.updatuj_mnozstvi(team.celkem.val)
                     case 6:
-                        if self.uplatkar():
+                        if team.jail.val > 0:
                             change = True
                             team.celkem.val += 15000
                             team.celkem.updatuj_mnozstvi(team.celkem.val)
@@ -102,13 +102,13 @@ class Achievements():
         if i == len(self.teams):
             return True
         
-    def uplatkar(self):
-        i = 0
-        for team in self.teams:
-            if team.jail.val > 0:
-                i += 1
-        if i == 3:
-            return True
+    # def uplatkar(self):
+    #     i = 0
+    #     for team in self.teams:
+    #         if team.jail.val > 0:
+    #             i += 1
+    #     if i == 3:
+    #         return True
         
     def inovator(self, team):
         return team.farma.val - 3 >= team.babicka.val 

@@ -102,7 +102,7 @@ class Poslepu(Obehnuti):
             self.group.klasik.updatuj_parametr(self.group.klasik.param)
         self.pricti_mnozstvi()
         
-class Valeni(Obehnuti):
+class Mlynek(Obehnuti):
     def __init__(self, parent, row, label_text, group, default = 1):
         super().__init__(parent, row, label_text, group, default)
 
@@ -111,3 +111,14 @@ class Valeni(Obehnuti):
             self.group.poslepu.param += 1
             self.group.poslepu.updatuj_parametr(self.group.poslepu.param)
         self.pricti_mnozstvi()
+        
+class Valeni(Obehnuti):
+    def __init__(self, parent, row, label_text, group, default = 1):
+        super().__init__(parent, row, label_text, group, default)
+        
+    def obehnuto(self):
+        if (self.val + 1) % 3 == 0:
+            self.group.pozadu.param += 10
+            self.group.pozadu.updatuj_parametr(self.group.pozadu.param)
+        self.pricti_mnozstvi()
+        

@@ -15,8 +15,9 @@ KLASIK = 1
 POZADU = 10
 POSLEPU = 1
 VALENI = 1
+MLYNEK = 1
 
-AUTOCLICK_INTERVAL = 10789
+AUTOCLICK_INTERVAL = 5
 GAME_LENGTH = 3600
 POCET_TEAMU = 6
 
@@ -31,8 +32,9 @@ class CounterGroup:
         self.klasik = Klasik(self.frame, 1, "Klasik K", self, KLASIK)
         self.pozadu = Pozadu(self.frame, 2, "Pozadu Z", self, POZADU)
         self.poslepu = Poslepu(self.frame, 3, "Poslepu S", self, POSLEPU)
-        self.valeni = Valeni(self.frame, 4, "Bez noh V", self, VALENI)
-        self.obihani = [self.celkem, self.klasik, self.pozadu, self.poslepu, self.valeni]
+        self.valeni = Valeni(self.frame, 4, "Slepice V", self, VALENI)
+        self.mlynek = Mlynek(self.frame, 5, "Mlynek M", self, MLYNEK)
+        self.obihani = [self.celkem, self.klasik, self.pozadu, self.poslepu, self.valeni, self.mlynek]
         
         self.babicka = Babicka(self.frame, 0, "Babicka B", self, cenik)  
         self.farma = Farma(self.frame, 1, "Farma F", self, cenik)  

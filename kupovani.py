@@ -34,7 +34,7 @@ class Babicka(Obchod):
         super().__init__(parent, row, label_text, group, cenik)
         
     def koupit(self):
-        self.zaplatit(self.cenik.babicka_counter, floor(self.cenik.babicka_counter.val*1.2))
+        self.zaplatit(self.cenik.babicka_counter, floor(self.cenik.babicka_counter.val*1.4))
 
 class Farma(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
@@ -63,7 +63,7 @@ class Xorg(Obchod):
         super().__init__(parent, row, label_text, group, cenik)
      
     def koupit(self):
-        self.zaplatit(self.cenik.xorg_counter, floor(self.cenik.xorg_counter.val*2))
+        self.zaplatit(self.cenik.xorg_counter, floor(self.cenik.xorg_counter.val*2.2))
 
 class Jail(Obchod):
     def __init__(self, parent, row, label_text, group, cenik):
