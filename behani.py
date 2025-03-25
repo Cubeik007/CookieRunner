@@ -87,7 +87,7 @@ class Pozadu(Obehnuti):
         super().__init__(parent, row, label_text, group, default)        
 
     def obehnuto(self):
-        if self.val % 5 == 0:
+        if (self.val +1) % 3 == 0:
             self.group.klasik.param += self.group.pozadu.param
             self.group.klasik.updatuj_parametr(self.group.klasik.param)
         self.pricti_mnozstvi()
@@ -97,7 +97,7 @@ class Poslepu(Obehnuti):
         super().__init__(parent, row, label_text, group, default)
 
     def obehnuto(self):
-        if self.val % 5 == 0 and self.val <= 30:
+        if (self.val +1) % 5 == 0 and self.val <= 30:
             self.group.klasik.param *= self.group.poslepu.param
             self.group.klasik.updatuj_parametr(self.group.klasik.param)
         self.pricti_mnozstvi()
@@ -107,7 +107,7 @@ class Valeni(Obehnuti):
         super().__init__(parent, row, label_text, group, default)
 
     def obehnuto(self):
-        if self.val == 0 or log2(self.val).is_integer():
+        if self.val == 0 or log2(self.val+1).is_integer():
             self.group.poslepu.param += 1
             self.group.poslepu.updatuj_parametr(self.group.poslepu.param)
         self.pricti_mnozstvi()

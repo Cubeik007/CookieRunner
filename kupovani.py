@@ -7,7 +7,7 @@ class Obchod(CounterRow):
         super().__init__(parent, row, label_text, 4)
         self.cenik = cenik
         self.group = group    
-        self.button = tk.Button(parent, text=f"Koupit!", command=self.koupit)
+        self.button = tk.Button(parent, text=f"Koupit! ({chr(row+ord("a"))})", command=self.koupit)
         self.button.grid(row=row, column=6, padx=5, pady=5)
         
     def koupit(self):

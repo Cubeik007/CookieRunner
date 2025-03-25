@@ -16,8 +16,9 @@ POZADU = 10
 POSLEPU = 1
 VALENI = 1
 
-AUTOCLICK_INTERVAL = 60
+AUTOCLICK_INTERVAL = 10789
 GAME_LENGTH = 3600
+POCET_TEAMU = 6
 
 
 class CounterGroup:
@@ -26,20 +27,20 @@ class CounterGroup:
         self.frame = tk.Frame(parent, bd=2, relief=tk.SUNKEN)
         self.frame.grid(row=row_start, column=column_start, padx=5, pady=5, sticky="w")
         
-        self.celkem = CounterRow(self.frame, 0, "Počet cookies")
-        self.klasik = Klasik(self.frame, 1, "Klasik", self, KLASIK)
-        self.pozadu = Pozadu(self.frame, 2, "Pozadu", self, POZADU)
-        self.poslepu = Poslepu(self.frame, 3, "Poslepu", self, POSLEPU)
-        self.valeni = Valeni(self.frame, 4, "Bez noh", self, VALENI)
+        self.celkem = CounterRow(self.frame, 0, "Cookies C")
+        self.klasik = Klasik(self.frame, 1, "Klasik K", self, KLASIK)
+        self.pozadu = Pozadu(self.frame, 2, "Pozadu Z", self, POZADU)
+        self.poslepu = Poslepu(self.frame, 3, "Poslepu S", self, POSLEPU)
+        self.valeni = Valeni(self.frame, 4, "Bez noh V", self, VALENI)
         self.obihani = [self.celkem, self.klasik, self.pozadu, self.poslepu, self.valeni]
         
-        self.babicka = Babicka(self.frame, 0, "Babicka", self, cenik)  
-        self.farma = Farma(self.frame, 1, "Farma", self, cenik)  
-        self.dalnice = Dalnice(self.frame, 2, "Dalnice", self, cenik)  
-        self.org = Org(self.frame, 3, "Org", self, cenik)
-        self.xorg = Xorg(self.frame, 4, "Xorg", self, cenik)
-        self.jail = Jail(self.frame, 5, "Jail free card", self, cenik)
-        self.kupovani = [self.babicka, self.farma, self.dalnice, self.org, self.xorg]
+        self.babicka = Babicka(self.frame, 0, "Babicka B", self, cenik)  
+        self.farma = Farma(self.frame, 1, "Farma F", self, cenik)  
+        self.dalnice = Dalnice(self.frame, 2, "Dalnice D", self, cenik)  
+        self.org = Org(self.frame, 3, "Org O", self, cenik)
+        self.xorg = Xorg(self.frame, 4, "Xorg X", self, cenik)
+        self.jail = Jail(self.frame, 5, "Jail free card J", self, cenik)
+        self.kupovani = [self.babicka, self.farma, self.dalnice, self.org, self.xorg, self.jail]
         
         self.golden = Golden_cookie(self.frame, self, game.teams)
         
@@ -47,6 +48,8 @@ class CounterGroup:
         self.team_label.grid(row=0, column=2, padx=5, pady=5)
         self.achievements = game.achievements
         
+        # root.bind("<1>", self.update_stuff)
+
 
 class Game():
     def __init__(self, parent, pocet):
@@ -60,8 +63,9 @@ class Game():
                 col += 1
             self.teams.append(CounterGroup(parent, i % 3, col, self.cenik, self, i+1))
             
-        root.bind("<p>", self.pause_resume)
-        
+        # parent.bind("<p>", self.pause_resume)
+        parent.bind("<KeyPress>", self.check_keyboard_input)
+
         
         self.timer = Timer(parent, "Autoclick", 4, 1) 
         self.total_Time = Timer(parent, "Celkový čas", 4, 2)
@@ -69,6 +73,7 @@ class Game():
         self.game_length = GAME_LENGTH
         
         self.change_time()
+        self.last_team = 1
         
     def change_time(self):
         self.timer.change_label()
@@ -110,9 +115,34 @@ class Game():
         self.timer.pause_resume()
         self.total_Time.pause_resume()
         
+    def check_keyboard_input(self, event):
+        print(event.keycode)
+        keycode = 0
+        if event.char:
+            keycode = ord(event.char)
+        if event.keycode == 36:
+            self.parent.focus()
+        if event.char == "p":
+            self.pause_resume()
+        if event.char and keycode > ord("0") and keycode <= ord("0")+len(self.teams):
+            self.teams[self.last_team].frame.configure(bg="lightgrey")
+            id = keycode - ord("1") 
+            # print(len(self.teams))
+            self.last_team = id
+            self.teams[id].frame.configure(bg="lightgreen")
+        if event.char and keycode >= ord("a") and keycode < ord("a")+7:
+            # for i in self.teams[self.last_team].kupovani: print(i)
+            print(keycode, chr(keycode))
+            if chr(keycode) == "g":
+                self.teams[self.last_team].jail.val = 0
+                self.teams[self.last_team].jail.updatuj_mnozstvi(0)
+            else:
+                self.teams[self.last_team].kupovani[keycode-ord("a")].koupit()
+        
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Více skupin počítadel s názvy")
-    game = Game(root, 6)
+    game = Game(root, POCET_TEAMU)
     root.mainloop()
